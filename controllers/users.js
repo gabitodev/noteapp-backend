@@ -37,7 +37,7 @@ usersRouter.post('/', async (request, response) => {
 
 usersRouter.get('/:id', async (request, response) => {
   const user = await User.findById(request.params.id);
-  response.status(200).json(user);
+  return response.status(200).json(user);
 });
 
 module.exports = usersRouter;
