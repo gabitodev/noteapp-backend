@@ -7,6 +7,7 @@ usersRouter.post('/', async (request, response) => {
   const userExist = await User.findOne({ username });
 
   // Validations
+  const hasCharacters = /^[A-Za-z]+$/;
   const hasNumber = /\d/;
   const hasSpecialCharacters = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
   if (userExist) {
@@ -17,6 +18,8 @@ usersRouter.post('/', async (request, response) => {
     return response.status(400).json({error: 'password requires at leats 1 number'});
   } else if (!hasSpecialCharacters.test(password)) {
     return response.status(400).json({error: 'password requires at leats 1 special character'});
+  } else if (!hasCharacters.test(password)) {
+    return response.status(400).json({error: 'password requires at least 1 letter'});
   } else if (password.length < 6) {
     return response.status(400).json({error: 'password must be 6 or more characters long'});
   }

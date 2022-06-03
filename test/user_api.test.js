@@ -179,6 +179,29 @@ describe('users router', () => {
       expect(usernames).not.toContain(newUser.name);
       expect(usersAtEnd).toEqual(usersAtStart);
     }, 100000);
+
+    test('fails with code 400 if password does not contain at least 1 letter', async () => {
+      const usersAtStart = await usersInDB();
+      
+      const newUser = {
+        username: 'alejandro78',
+        name: 'Alejandro Gonzales',
+        password: '47.5587575'
+      };
+  
+      const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/);
+  
+      const usersAtEnd = await usersInDB();
+  
+      expect(result.body.error).toContain('password requires at least 1 letter');
+      const usernames = usersAtEnd.map(user => user.name);
+      expect(usernames).not.toContain(newUser.name);
+      expect(usersAtEnd).toEqual(usersAtStart);
+    }, 100000);
   });
   
   describe('getting one user', () => {
