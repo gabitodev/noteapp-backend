@@ -4,7 +4,8 @@
   "description": "NoteApp Backend",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,8 @@
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.4"
+    "mongoose": "^6.3.4",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

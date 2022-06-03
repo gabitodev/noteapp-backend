@@ -10,6 +10,7 @@ const loginRouter = require('./controllers/login');
 const notesRouter = require('./controllers/notes');
 const mongoose = require('mongoose');
 const middleware = require('./utils/middleware');
+const morgan = require('morgan');
 
 (async () => {
   await mongoose.connect(MONGODB_URI);
@@ -24,5 +25,6 @@ app.use('/api/login', loginRouter);
 app.use('/api/notes', middleware.userExtractor, notesRouter);
 
 app.use(middleware.errorHandler);
+app.use(morgan('tiny'));
 
 module.exports = app;
