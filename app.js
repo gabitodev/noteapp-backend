@@ -2,6 +2,7 @@ require('express-async-errors');
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { MONGODB_URI } = require('./utils/config');
 const logger = require('./utils/logger');
@@ -19,6 +20,7 @@ const morgan = require('morgan');
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);

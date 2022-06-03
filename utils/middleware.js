@@ -19,16 +19,29 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
+
+const generateToken = (response, userForToken) => {
+  const token = jwt.sign(
+    userForToken, 
+    process.env.SECRET,
+    { expiresIn: 60*60 }
+  );
+  return response.cookie('token', token, {
+    expires: new Date(Date.now() + 3600000),
+    secure: false,
+    httpOnly: true
+  });
+};
+
 const userExtractor = async (request, response, next) => {
-  const authorization = request.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    const token = authorization.substring(7);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    const user = await User.findById(decodedToken.id);
-    request.user = user;
-    return next();
-  }
+  const token = request.cookies.token || null;
+  if (!token) {
+    return response.status(401).json('invalid token');
+  } 
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  const user = await User.findById(decodedToken.id);
+  request.user = user;
   next();
 };
 
-module.exports = { errorHandler, userExtractor };
+module.exports = { errorHandler, userExtractor, generateToken };
