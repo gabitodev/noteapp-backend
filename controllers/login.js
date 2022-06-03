@@ -1,7 +1,6 @@
 const loginRouter = require('express').Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const req = require('express/lib/request');
 const { generateToken } = require('../utils/middleware');
 
 loginRouter.post('/', async (request, response) => {
