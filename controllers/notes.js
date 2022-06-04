@@ -7,7 +7,7 @@ notesRouter.get('/', async (request, response) => {
   if (!user) {
     return response.status(401).json({error: 'invalid credetntials'});
   }
-  const notes = await Note.find({ user: user._id });
+  const notes = await Note.find({ user: user._id }).populate('user', {username: 1});
   return response.status(200).json(notes);
 });
 
