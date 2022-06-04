@@ -31,7 +31,7 @@ describe('users router', () => {
         password: 'secret.25'
       };
   
-      await api
+      const response = await api
         .post('/api/users')
         .send(newUser)
         .expect(201)

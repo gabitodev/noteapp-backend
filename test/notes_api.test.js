@@ -71,14 +71,14 @@ describe('notes router', () => {
     })
     .expect(200);
 
-    token = response.body.token;
+    token = response.headers['set-cookie'];
   }, 100000);
   
   describe('get notes for the user logged in', () => {
     test('suceeds with code 200 to get the notes of one user', async () => {
       const response = await api
         .get('/api/notes')
-        .set('Authorization', `bearer ${token}`)
+        .set('Cookie', token)
         .expect(200)
         .expect('Content-Type', /application\/json/);
       
@@ -89,13 +89,10 @@ describe('notes router', () => {
     test('fails with code 401 to get the notes of one user if token is invalid', async () => {
       const badToken = '84814818118478481';
       
-      const response = await api
+      await api
         .get('/api/notes')
-        .set('Authorization', `bearer ${badToken}`)
-        .expect(401)
-        .expect('Content-Type', /application\/json/);
-                            
-      expect(response.body.error).toBe('invalid token');
+        .set('Cookie', badToken)
+        .expect(403)
     });
   });
 
@@ -110,7 +107,7 @@ describe('notes router', () => {
 
       const newNote = await api
         .post('/api/notes')
-        .set('Authorization', `bearer ${token}`)
+        .set('Cookie', token)
         .send(note)
         .expect(201)
         .expect('Content-Type', /application\/json/);
@@ -142,7 +139,7 @@ describe('notes router', () => {
 
       const response = await api
         .post('/api/notes')
-        .set('Authorization', `bearer ${token}`)
+        .set('Cookie', token)
         .send(note)
         .expect(400)
         .expect('Content-Type', /application\/json/);
@@ -161,7 +158,7 @@ describe('notes router', () => {
 
       const response = await api
         .post('/api/notes')
-        .set('Authorization', `bearer ${token}`)
+        .set('Cookie', token)
         .send(note)
         .expect(400)
         .expect('Content-Type', /application\/json/);
@@ -179,7 +176,7 @@ describe('notes router', () => {
 
       await api
         .delete(`/api/notes/${noteToDelete.id}`)
-        .set('Authorization', `bearer ${token}`)
+        .set('Cookie', token)
         .expect(204);
       
       const notesAtEnd = await notesOftestUser();
@@ -203,7 +200,7 @@ describe('notes router', () => {
 
       await api
         .put(`/api/notes/${noteToUpdate.id}`)
-        .set('Authorization', `bearer ${token}`)
+        .set('Cookie', token)
         .send(updateNote)
         .expect(200);
       

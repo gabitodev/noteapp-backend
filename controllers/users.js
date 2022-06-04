@@ -7,7 +7,7 @@ usersRouter.post('/', async (request, response) => {
   const userExist = await User.findOne({ username });
 
   // Validations
-  const hasCharacters = /^[A-Za-z]+$/;
+  const hasCharacters = /[A-Za-z]/;
   const hasNumber = /\d/;
   const hasSpecialCharacters = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
   if (userExist) {

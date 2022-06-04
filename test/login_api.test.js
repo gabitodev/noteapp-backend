@@ -26,9 +26,7 @@ describe('login router', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
-    expect(response.body.username).toBe(user.username);
-    expect(response.body.name).toBe('el tester');
-
+      expect(response.body.message).toBe('Logged in successfully');
   });
 
   test('fails with code 401 if username is incorrect', async () => {
