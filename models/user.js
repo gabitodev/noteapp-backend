@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
   },
   name: String,
   passwordHash: String,
+  refreshToken: {
+    type: String,
+    default: null
+  },
   notes: [
     {
       type: mongoose.Schema.Types.ObjectId,

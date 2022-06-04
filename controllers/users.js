@@ -7,21 +7,13 @@ usersRouter.post('/', async (request, response) => {
   const userExist = await User.findOne({ username });
 
   // Validations
-  const hasCharacters = /[A-Za-z]/;
-  const hasNumber = /\d/;
-  const hasSpecialCharacters = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  const isCorrect = /^(?=.*[a-z])(?=.*[0-9])(?=.*[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]).{6,24}$/;
   if (userExist) {
     return response.status(400).json({error: 'username already exist'});
   } else if (!(username && password)) {
     return response.status(400).json({error: 'username and password are required'});
-  } else if (!hasNumber.test(password)) {
-    return response.status(400).json({error: 'password requires at leats 1 number'});
-  } else if (!hasSpecialCharacters.test(password)) {
-    return response.status(400).json({error: 'password requires at leats 1 special character'});
-  } else if (!hasCharacters.test(password)) {
-    return response.status(400).json({error: 'password requires at least 1 letter'});
-  } else if (password.length < 6) {
-    return response.status(400).json({error: 'password must be 6 or more characters long'});
+  } else if (!isCorrect.test(password)) {
+    return response.status(400).json({error: 'Password needs to be at least 6 characters long, include 1 number, 1 letter and 1 special character'});
   }
 
   // password hash

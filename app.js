@@ -10,6 +10,7 @@ const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const notesRouter = require('./controllers/notes');
 const logoutRouter = require('./controllers/logout');
+const refreshRouter = require('./controllers/refresh');
 const mongoose = require('mongoose');
 const middleware = require('./utils/middleware');
 const morgan = require('morgan');
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/logout', logoutRouter);
+app.use('/api/refresh', refreshRouter);
 app.use('/api/notes', middleware.userExtractor, notesRouter);
 
 app.use(middleware.errorHandler);

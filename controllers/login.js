@@ -11,30 +11,29 @@ loginRouter.post('/', async (request, response) => {
   const passwordCorrect = user === null
     ? false
     : await bcrypt.compare(password, user.passwordHash);
-  
+
   if (!(username &&  passwordCorrect)) {
     return response.status(401).json({error: 'invalid username or password'});
-  }
+  };
 
   const userForToken = {
     username: user.username,
     id: user._id,
-  }
+  };
 
-  const token = jwt.sign(
-    userForToken, 
-    process.env.SECRET,
-    { expiresIn: 60*60 }
-  );
+  const accessToken = jwt.sign(userForToken, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
 
-  return response
-    .cookie('token', token, {
-      expires: new Date(Date.now() + 3600000),
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true
-    })
-    .status(200)
-    .json({message: 'Logged in successfully'})
+  const refreshToken = jwt.sign(userForToken, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+
+  response.cookie('refreshToken', refreshToken, {
+    expires: new Date(Date.now() + 8.64e+7),
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true
+  });
+
+  await User.findByIdAndUpdate(user._id, {refreshToken: refreshToken}, {new: true});
+
+  return response.status(200).json({accessToken, username: user.username});
 });
 
 module.exports = loginRouter;
