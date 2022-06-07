@@ -15,17 +15,16 @@ logoutRouter.get('/', async (request, response) => {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true
     });
-  };
+  }
 
   response.clearCookie('refreshToken', {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true
   });
 
-  await User.findByIdAndUpdate(user._id, {refreshToken: null}, {new: true});
+  await User.findByIdAndUpdate(user._id, { refreshToken: null }, { new: true });
 
   return response.sendStatus(204);
-
 });
 
 module.exports = logoutRouter;

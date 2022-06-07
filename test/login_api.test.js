@@ -9,7 +9,7 @@ describe('login router', () => {
     await User.deleteMany({});
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash('secret.65', saltRounds);
-    const user = new User({username: 'test123', name:'el tester', passwordHash});
+    const user = new User({ username: 'test123', name:'el tester', passwordHash });
     await user.save();
   }, 100000);
 
@@ -26,7 +26,7 @@ describe('login router', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
-      expect(response.body.message).toBe('Logged in successfully');
+    expect(response.body.message).toBe('Logged in successfully');
   });
 
   test('fails with code 401 if username is incorrect', async () => {

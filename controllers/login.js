@@ -13,15 +13,15 @@ loginRouter.post('/', async (request, response) => {
     : await bcrypt.compare(password, user.passwordHash);
 
   if (!(username &&  passwordCorrect)) {
-    return response.status(401).json({error: 'invalid username or password'});
-  };
+    return response.status(401).json({ error: 'invalid username or password' });
+  }
 
   const userForToken = {
     username: user.username,
     id: user._id,
   };
 
-  const accessToken = jwt.sign(userForToken, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
+  const accessToken = jwt.sign(userForToken, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
 
   const refreshToken = jwt.sign(userForToken, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
 
@@ -31,9 +31,9 @@ loginRouter.post('/', async (request, response) => {
     httpOnly: true
   });
 
-  await User.findByIdAndUpdate(user._id, {refreshToken: refreshToken}, {new: true});
+  await User.findByIdAndUpdate(user._id, { refreshToken: refreshToken }, { new: true });
 
-  return response.status(200).json({accessToken, username: user.username});
+  return response.status(200).json({ accessToken, username: user.username });
 });
 
 module.exports = loginRouter;

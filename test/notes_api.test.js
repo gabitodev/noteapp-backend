@@ -6,7 +6,7 @@ const Note = require('../models/note');
 const bcrypt = require('bcrypt');
 
 const notesOftestUser = async () => {
-  const notes = await Note.find({user: initialUsers[1]._id});
+  const notes = await Note.find({ user: initialUsers[1]._id });
   const notesJSON = notes.map(note => note.toJSON());
   return notesJSON;
 };
@@ -33,7 +33,7 @@ const initialUsers = [
     notes: []
   },
   {
-    _id: "628423ef39d47bef51283534",
+    _id: '628423ef39d47bef51283534',
     username: 'juneke',
     name: 'Junior Gomez',
     password: 'test.123',
@@ -64,16 +64,16 @@ describe('notes router', () => {
     }
 
     const response = await api
-    .post('/api/login')
-    .send({
-      username: initialUsers[1].username,
-      password: initialUsers[1].password
-    })
-    .expect(200);
+      .post('/api/login')
+      .send({
+        username: initialUsers[1].username,
+        password: initialUsers[1].password
+      })
+      .expect(200);
 
     token = response.headers['set-cookie'];
   }, 100000);
-  
+
   describe('get notes for the user logged in', () => {
     test('suceeds with code 200 to get the notes of one user', async () => {
       const response = await api
@@ -81,25 +81,25 @@ describe('notes router', () => {
         .set('Cookie', token)
         .expect(200)
         .expect('Content-Type', /application\/json/);
-      
+
       const notesAtEnd = await notesOftestUser();
       expect(response.body).toHaveLength(notesAtEnd.length);
     });
-  
+
     test('fails with code 401 to get the notes of one user if token is invalid', async () => {
       const badToken = '84814818118478481';
-      
+
       await api
         .get('/api/notes')
         .set('Cookie', badToken)
-        .expect(403)
+        .expect(403);
     });
   });
 
   describe('creation of a note', () => {
     test('suceeds with code 201 if user creates a note with the correct title and content', async () => {
       const notesAtStart = await notesOftestUser();
-      
+
       const note = {
         title: 'Fresh note',
         content: 'A new new new new ultra new note'
@@ -121,7 +121,7 @@ describe('notes router', () => {
           user : note.user.toString()
         };
       });
-  
+
       expect(notesAtEnd).toHaveLength(notesAtStart.length + 1);
       expect(formatedNotesAtEnd).toContainEqual({
         title: newNote.body.title,
@@ -144,7 +144,6 @@ describe('notes router', () => {
         .expect(400)
         .expect('Content-Type', /application\/json/);
 
-      
       const notesAtEnd = await notesOftestUser();
       expect(response.body.error).toBe('title and content are required');
       expect(notesAtEnd).toHaveLength(notesAtStart.length);
@@ -178,7 +177,7 @@ describe('notes router', () => {
         .delete(`/api/notes/${noteToDelete.id}`)
         .set('Cookie', token)
         .expect(204);
-      
+
       const notesAtEnd = await notesOftestUser();
       const notesAtEndTitles = notesAtEnd.map(note => note.title);
 
@@ -203,7 +202,7 @@ describe('notes router', () => {
         .set('Cookie', token)
         .send(updateNote)
         .expect(200);
-      
+
       const notesAtEnd = await notesOftestUser();
       const notesAtEndTitles = notesAtEnd.map(note => note.title);
 

@@ -13,9 +13,9 @@ refreshRouter.get('/', async (request, response) => {
 
   if (!user) {
     return response.sendStatus(401);
-  };
+  }
 
-  const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+  const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
   if (decoded.username !== user.username) return response.sendStatus(403);
 
@@ -24,9 +24,9 @@ refreshRouter.get('/', async (request, response) => {
     id: user._id,
   };
 
-  const accessToken = jwt.sign(userForToken, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+  const accessToken = jwt.sign(userForToken, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
 
-  return response.status(200).json({accessToken, username: user.username});
+  return response.status(200).json({ accessToken, username: user.username });
 });
 
 module.exports = refreshRouter;
