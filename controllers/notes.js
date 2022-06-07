@@ -1,11 +1,10 @@
 const notesRouter = require('express').Router();
 const Note = require('../models/note');
-const bcrypt = require('bcrypt');
 
 notesRouter.get('/', async (request, response) => {
   const { user } = request;
   if (!user) {
-    return response.status(401).json({error: 'invalid credetntials'});
+    return response.sendStatus(403);
   }
   const notes = await Note.find({ user: user._id }).populate('user', {username: 1});
   return response.status(200).json(notes);
