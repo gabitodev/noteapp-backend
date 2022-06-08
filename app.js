@@ -20,9 +20,10 @@ const morgan = require('morgan');
   logger.info('Connected to MongoDB');
 })();
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:3001' }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan('tiny'));
 
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
@@ -31,6 +32,5 @@ app.use('/api/refresh', refreshRouter);
 app.use('/api/notes', middleware.userExtractor, notesRouter);
 
 app.use(middleware.errorHandler);
-app.use(morgan('tiny'));
 
 module.exports = app;

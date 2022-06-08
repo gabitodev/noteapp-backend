@@ -4,9 +4,9 @@ const Note = require('../models/note');
 notesRouter.get('/', async (request, response) => {
   const { user } = request;
   if (!user) {
-    return response.sendStatus(403);
+    return response.sendStatus(401);
   }
-  const notes = await Note.find({ user: user._id }).populate('user', { username: 1 });
+  const notes = await Note.find({ user: user._id });
   return response.status(200).json(notes);
 });
 
@@ -65,7 +65,7 @@ notesRouter.put('/:id', async (request, response) => {
   const note = await Note.findById(request.params.id);
 
   if (note.user.toString() === user.id.toString()) {
-    const updatedNote = await Note.findByIdAndUpdate(request.params.id, updateDetails, { new: true }).populate('user', { username: 1, name: 1 });
+    const updatedNote = await Note.findByIdAndUpdate(request.params.id, updateDetails, { new: true });
     return response.status(200).json(updatedNote);
   } else {
     response.status(401).json({ error: 'wrong user' });
