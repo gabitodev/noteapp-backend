@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
-    "dev": "cross-env NODE_ENV=test nodemon index.js"
+    "dev": "cross-env NODE_ENV=test nodemon index.js",
+    "build:ui": "rm -rf build && cd ../noteapp-frontend/ && npm run build && cp -r build ../noteapp-backend"
   },
   "repository": {
     "type": "git",

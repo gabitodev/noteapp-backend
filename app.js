@@ -20,7 +20,8 @@ const morgan = require('morgan');
   logger.info('Connected to MongoDB');
 })();
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3001' }));
+app.use(cors());
+app.use(express.static('build'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('tiny'));
