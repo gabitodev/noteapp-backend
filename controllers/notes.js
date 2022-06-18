@@ -16,7 +16,7 @@ notesRouter.post('/', async (request, response) => {
     return response.sendStatus(403);
   }
 
-  const { title, content } = request.body;
+  const { title, content, category } = request.body;
   if (!(title && content)) {
     return response.status(400).json({ error: 'title and content are required' });
   }
@@ -24,6 +24,7 @@ notesRouter.post('/', async (request, response) => {
   const note = new Note({
     title,
     content,
+    category,
     user: user._id
   });
 
@@ -59,7 +60,8 @@ notesRouter.put('/:id', async (request, response) => {
 
   const updateDetails = {
     title: body.title,
-    content: body.content
+    content: body.content,
+    category: body.category
   };
 
   const note = await Note.findById(request.params.id);
