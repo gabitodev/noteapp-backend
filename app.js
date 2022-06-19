@@ -27,15 +27,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('tiny'));
 
-app.get('/*', middleware.userExtractor, (request, response) => {
-  response.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-});
-
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/logout', logoutRouter);
 app.use('/api/refresh', refreshRouter);
 app.use('/api/notes', middleware.userExtractor, notesRouter);
+
+app.get('/*', middleware.userExtractor, (request, response) => {
+  response.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
 
 app.use(middleware.errorHandler);
 
