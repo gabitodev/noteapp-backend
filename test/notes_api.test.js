@@ -71,14 +71,14 @@ describe('notes router', () => {
       })
       .expect(200);
 
-    token = response.headers['set-cookie'];
+    token = response.body.accessToken;
   }, 100000);
 
   describe('get notes for the user logged in', () => {
     test('suceeds with code 200 to get the notes of one user', async () => {
       const response = await api
         .get('/api/notes')
-        .set('Cookie', token)
+        .set('Authorization', `Bearer ${token}`)
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
@@ -91,8 +91,8 @@ describe('notes router', () => {
 
       await api
         .get('/api/notes')
-        .set('Cookie', badToken)
-        .expect(403);
+        .set('Authorization', `Bearer ${badToken}`)
+        .expect(401);
     });
   });
 
@@ -107,7 +107,7 @@ describe('notes router', () => {
 
       const newNote = await api
         .post('/api/notes')
-        .set('Cookie', token)
+        .set('Authorization', `Bearer ${token}`)
         .send(note)
         .expect(201)
         .expect('Content-Type', /application\/json/);
@@ -139,7 +139,7 @@ describe('notes router', () => {
 
       const response = await api
         .post('/api/notes')
-        .set('Cookie', token)
+        .set('Authorization', `Bearer ${token}`)
         .send(note)
         .expect(400)
         .expect('Content-Type', /application\/json/);
@@ -157,7 +157,7 @@ describe('notes router', () => {
 
       const response = await api
         .post('/api/notes')
-        .set('Cookie', token)
+        .set('Authorization', `Bearer ${token}`)
         .send(note)
         .expect(400)
         .expect('Content-Type', /application\/json/);
@@ -175,7 +175,7 @@ describe('notes router', () => {
 
       await api
         .delete(`/api/notes/${noteToDelete.id}`)
-        .set('Cookie', token)
+        .set('Authorization', `Bearer ${token}`)
         .expect(204);
 
       const notesAtEnd = await notesOftestUser();
@@ -199,7 +199,7 @@ describe('notes router', () => {
 
       await api
         .put(`/api/notes/${noteToUpdate.id}`)
-        .set('Cookie', token)
+        .set('Authorization', `Bearer ${token}`)
         .send(updateNote)
         .expect(200);
 
