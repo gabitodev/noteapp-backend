@@ -14,6 +14,7 @@ const refreshRouter = require('./controllers/refresh');
 const mongoose = require('mongoose');
 const middleware = require('./utils/middleware');
 const morgan = require('morgan');
+const path = require('path');
 
 (async () => {
   await mongoose.connect(MONGODB_URI);
@@ -21,10 +22,14 @@ const morgan = require('morgan');
 })();
 
 app.use(cors());
-app.use(express.static('build'));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('tiny'));
+
+app.get('/*', (request, response) => {
+  response.sendFile(path.resolve(__dirname + 'build/index.html'));
+});
 
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
