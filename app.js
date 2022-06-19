@@ -27,8 +27,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('tiny'));
 
-app.get('/*', (request, response) => {
-  response.sendFile(path.resolve(__dirname + 'build'));
+app.get('*', (request, response) => {
+  response.sendFile(path.join(__dirname, 'build'));
 });
 
 app.use('/api/users', usersRouter);
