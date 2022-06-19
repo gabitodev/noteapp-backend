@@ -151,7 +151,7 @@ describe('users router', () => {
 
       const usersAtEnd = await usersInDB();
 
-      expect(result.body.error).toContain('password requires at leats 1 number');
+      expect(result.body.error).toContain('Password needs to be at least 6 characters long, include 1 number, 1 letter and 1 special character');
       const usernames = usersAtEnd.map(user => user.name);
       expect(usernames).not.toContain(newUser.name);
       expect(usersAtEnd).toEqual(usersAtStart);
@@ -174,7 +174,7 @@ describe('users router', () => {
 
       const usersAtEnd = await usersInDB();
 
-      expect(result.body.error).toContain('password requires at leats 1 special character');
+      expect(result.body.error).toContain('Password needs to be at least 6 characters long, include 1 number, 1 letter and 1 special character');
       const usernames = usersAtEnd.map(user => user.name);
       expect(usernames).not.toContain(newUser.name);
       expect(usersAtEnd).toEqual(usersAtStart);
@@ -197,7 +197,7 @@ describe('users router', () => {
 
       const usersAtEnd = await usersInDB();
 
-      expect(result.body.error).toContain('password requires at least 1 letter');
+      expect(result.body.error).toContain('Password needs to be at least 6 characters long, include 1 number, 1 letter and 1 special character');
       const usernames = usersAtEnd.map(user => user.name);
       expect(usernames).not.toContain(newUser.name);
       expect(usersAtEnd).toEqual(usersAtStart);
