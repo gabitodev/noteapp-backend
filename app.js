@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(morgan('tiny'));
 
 app.get('/*', (request, response) => {
-  response.sendFile(path.join(__dirname, 'build', 'index.html'));
+  response.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
 app.use('/api/users', usersRouter);
