@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('tiny'));
 
-app.get('/*', (request, response) => {
+app.get('/*', middleware.userExtractor, (request, response) => {
   response.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
