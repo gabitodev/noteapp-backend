@@ -33,7 +33,7 @@ app.use('/api/logout', logoutRouter);
 app.use('/api/refresh', refreshRouter);
 app.use('/api/notes', middleware.userExtractor, notesRouter);
 
-app.get('/*', middleware.userExtractor, (request, response) => {
+app.get('/*', (request, response) => {
   response.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
