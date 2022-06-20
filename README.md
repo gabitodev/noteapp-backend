@@ -9,7 +9,7 @@ In order to use the app you have to create a user.
 This is the backend of the app that serves on heroku using the build folder of the front-end.
 This was made using NodeJS, Express, MongoDB and React.
 
-Fully Responsive.
+Responsive Design.
 
 [Front-end-Repository](https://github.com/gabitodev/noteapp-frontend)
 
