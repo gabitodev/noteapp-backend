@@ -1,5 +1,6 @@
 # 📝NoteDEV
 ## A web app to store all your notes in you browser
+### Back-end
 This app let you save notes, edit notes, delete notes.
 The notes can be sortered by category to better organization, has notifications and the notes are saved in the MongoDB database.
 
