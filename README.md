@@ -10,3 +10,5 @@ This was made using NodeJS, Express, MongoDB and React.
 [Front-end-Repository](https://github.com/gabitodev/noteapp-frontend)
 
 [Live Website](https://note-dev.herokuapp.com)
+
+![Mobile](https://user-images.githubusercontent.com/8563780/174634708-06137dcd-a7d7-4d7c-bb3a-64242f5bb6ff.png)
