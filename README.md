@@ -9,4 +9,4 @@ This was made using NodeJS, Express, MongoDB and React.
 
 [Front-end-Repository](https://github.com/gabitodev/noteapp-frontend)
 
-[Live Website](https://note-dev.herokuapp.com/notes)
+[Live Website](https://note-dev.herokuapp.com)
